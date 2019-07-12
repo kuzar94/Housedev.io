@@ -472,6 +472,9 @@ button:active {
   .image {
     width: 70%;
   }
+  button {
+    height: 2.6em;
+  }
 }
 
 @media (max-width: 100px) {
