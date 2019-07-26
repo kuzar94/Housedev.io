@@ -1,10 +1,15 @@
+//assignment variables
 const paths = document.querySelectorAll(".mieszkanie");
 const urlBooked = "https://bookeddata-42feb.firebaseio.com/floors.json";
 const $tooltip = $("<div class=tooltip-map></div>");
+
+//if something will go wrong with downloading data, tooltip will show this html
 $tooltip.html(
   `<div class="tooltip-img"></div><h4>Restart website</h4><h5>please</h5><p></p>`
 );
 $tooltip.css({ display: "none" });
+
+//function responsible for seting tooltip near cursor
 function setTooltipPos(x, y) {
   $tooltip.css({ left: `${x + 20}px` });
   $tooltip.css({ top: `${y + 20}px` });
@@ -21,26 +26,8 @@ function setTooltipPos(x, y) {
     $tooltip.css({ top: `${y - $tooltip.height() - 0}px` });
   }
 }
-$("body").append($tooltip);
-function LightenDarkenColor(col, amt) {
-  var usePound = false;
-  if (col[0] == "#") {
-    col = col.slice(1);
-    usePound = true;
-  }
-  var num = parseInt(col, 16);
-  var r = (num >> 16) + amt;
-  if (r > 255) r = 255;
-  else if (r < 0) r = 0;
-  var b = ((num >> 8) & 0x00ff) + amt;
-  if (b > 255) b = 255;
-  else if (b < 0) b = 0;
-  var g = (num & 0x0000ff) + amt;
-  if (g > 255) g = 255;
-  else if (g < 0) g = 0;
-  return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
-}
 
+$("body").append($tooltip);
 $.ajax({
   method: "GET",
   url: urlBooked,
@@ -51,11 +38,14 @@ $.ajax({
     const $floorAccomodation = $(`.floor${i}`);
     const tab = res[key];
     const keySaved = key;
+
     for (subKey in tab) {
       const $accomodation = $floorAccomodation.find(
         `#mieszkanie${subKey} path`
       );
+      //if its not taken
       if (tab[subKey].status == 0) {
+        //set colors, tooltips, actions to buttons
         $accomodation.addClass("free");
         $accomodation.css({ fill: "rgb(90, 216, 96)" });
         const subKeySaved = subKey;
@@ -77,6 +67,7 @@ $.ajax({
             .css("background-image", tab[subKeySaved].image);
           $accomodation.css({ fill: "rgb(67, 161, 71)" });
         });
+
         $accomodation.mouseout(function() {
           $accomodation.css({ fill: "rgb(90, 216, 96)" });
           $tooltip.css({ display: "none" });
@@ -84,11 +75,9 @@ $.ajax({
         $accomodation.mousemove(function(e) {
           setTooltipPos(e.pageX, e.pageY);
         });
-
         $accomodation.click(function(e) {
           $(".imageModal").css("background-image", tab[subKeySaved].image);
           $(".buttonModalOrder").css({ display: "block" });
-
           $(".buttonModalSend").on("click", function(event) {
             var realKey = keySaved.match(/\d/g);
             realKey = realKey.join("");
@@ -99,6 +88,7 @@ $.ajax({
               number: $("#inputNumber").val(),
               message: $("#inputMessage").val()
             };
+            //all inputs must have some value when ordering
             if (
               $("#inputName").val() == 0 ||
               $("#inputEmail").val() == 0 ||
@@ -108,7 +98,6 @@ $.ajax({
               event.preventDefault();
               $(".notation").text("All fields must be filled");
               $(".notation").css("background-color", "rgb(255, 51, 51)");
-              // $(".buttonModalSend").off("click");
             } else {
               $.ajax({
                 type: "PATCH",
@@ -124,12 +113,12 @@ $.ajax({
               );
               $(".notation").css("background-color", "rgb(51, 133, 255)");
               console.log(`Name = ${$("#inputName").val()}`);
-
               setTimeout(function() {
                 location.reload();
               }, 3000);
             }
           });
+          //setting properties to modals and expanding form
           $(".form-style-8").css({ display: "block" });
           $(".modalTopText")
             .find("h3")
@@ -148,6 +137,7 @@ $.ajax({
           });
         });
       }
+      //if acomodation is taken
       if (tab[subKey].status == 1) {
         $accomodation.addClass("occupied");
         $accomodation.css({ fill: "rgb(248, 164, 167)" });
@@ -195,7 +185,11 @@ $.ajax({
     i = i + 1;
   }
 });
+
+//showing first floor
 $(`.floor${0}`).css({ display: "block" });
+
+//giving actions to each button to show actual floor
 $(".buttons button").each(function(i) {
   $(this).on("click", function() {
     $("[class^=floor]").css({ display: "none" });
@@ -203,10 +197,8 @@ $(".buttons button").each(function(i) {
     $(".actualFloor").text(i + 1);
   });
 });
-function adjust_textarea(h) {
-  h.style.height = "20px";
-  h.style.height = h.scrollHeight + "px";
-}
+
+//when modal is open give him appropriate size
 $("#ex1").on($.modal.OPEN, function() {
   if ($(window).width() > 874) {
     $("body").css("overflow-y", "auto");
@@ -224,12 +216,18 @@ $("#ex1").on($.modal.OPEN, function() {
     $("body").css("overflow-y", "auto");
     $(".modal").css("max-width", "500px");
     $(".modal").css("width", "500px");
-  } else if ($(window).width() > 0) {
+  } else if ($(window).width() > 400) {
     $("body").css("overflow-y", "auto");
-    $(".modal").css("max-width", "400px");
-    $(".modal").css("width", "400px");
+    $(".modal").css("max-width", "350px");
+    $(".modal").css("width", "350px");
+  } else if ($(window).width() > 0) {
+    $("body").css("overflow-y", "hidden");
+    $(".modal").css("max-width", "80%");
+    $(".modal").css("width", "80%");
   }
 });
+
+//clear all inputs when modal is closed
 $("#ex1").on($.modal.CLOSE, function() {
   content.style.maxHeight = null;
   coll.innerText = "Order";
@@ -242,6 +240,8 @@ $("#ex1").on($.modal.CLOSE, function() {
   $(".buttonModalSend").off("click");
   $(".imageModal").off();
 });
+
+//clear inputs when second modal is opened
 $("#ex2").on($.modal.CLOSE, function() {
   content.style.maxHeight = null;
   coll.innerText = "Order";
@@ -249,9 +249,11 @@ $("#ex2").on($.modal.CLOSE, function() {
 $("#ex2").on($.modal.OPEN, function() {
   $("body").css("overflow-y", "auto");
 });
+
 var coll = document.getElementById("buttonModalOrder");
 var content = document.getElementById("form-style-8");
 
+//if developing modal
 coll.addEventListener("click", function() {
   if (content.style.maxHeight) {
     content.style.maxHeight = null;
