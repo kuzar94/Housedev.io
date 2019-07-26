@@ -222,8 +222,8 @@ $("#ex1").on($.modal.OPEN, function() {
     $(".modal").css("width", "350px");
   } else if ($(window).width() > 0) {
     $("body").css("overflow-y", "hidden");
-    $(".modal").css("max-width", "80%");
-    $(".modal").css("width", "80%");
+    $(".modal").css("max-width", "100%");
+    $(".modal").css("width", "100%");
   }
 });
 
