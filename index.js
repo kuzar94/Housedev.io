@@ -228,6 +228,7 @@ $("#ex1").on($.modal.OPEN, function() {
     $(".modalTop").css("justify-content", "center");
     $(".modalTop").css("width", "100%");
     $(".imageModal").css("width", "100%");
+    $(".modalTopText").css("width", "100%");
   }
 });
 
