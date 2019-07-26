@@ -7,7 +7,7 @@ This page allows you to re-rent the flat after providing the details of the pote
 ## SVG
 The house level diagram is drawn in program named InkSpace as .svg file. Its possible to copy raw file to index.html, but 
 I addes some classes to have easier recogniton which element is actualy a flat, beacuse there are also corridors, walls, etc.
-##API
+## API
 On firebase there is my database which has information about rooms and their status, whether they are occupied or reserved. After 
 downloading data, by jQuery ajax im color the flats depending on the state. Every flats is getting onClick function. 
 ## MODAL
