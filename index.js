@@ -222,8 +222,9 @@ $("#ex1").on($.modal.OPEN, function() {
     $(".modal").css("width", "350px");
   } else if ($(window).width() > 0) {
     $("body").css("overflow-y", "hidden");
-    $(".modal").css("max-width", "100%");
-    $(".modal").css("width", "100%");
+    $(".modal").css("max-width", "90%");
+    $(".modal").css("width", "90%");
+    $(".modalTop").css("flex-direction", "column");
   }
 });
 
