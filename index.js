@@ -225,6 +225,9 @@ $("#ex1").on($.modal.OPEN, function() {
     $(".modal").css("max-width", "90%");
     $(".modal").css("width", "90%");
     $(".modalTop").css("flex-direction", "column");
+    $(".modalTop").css("justify-content", "center");
+    $(".modalTop").css("width", "100%");
+    $(".imageModal").css("width", "100%");
   }
 });
 
