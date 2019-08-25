@@ -1,6 +1,7 @@
 # Housedev.io
 HouseDev is a project modeled on the websites of housing developers on which you can view unoccupied flats.
 This page allows you to re-rent the flat after providing the details of the potential buyer.
+Technologies used: Javascript, HTML, CSS, Jquery
 # See the website
 ( https://kuzar94.github.io/Housedev.io/ ) 
 # MORE
@@ -19,4 +20,4 @@ that's why I did not focus on this in this project.
 ## BUGS
 Did You saw any bug? Contact me please then! :) If all flats are reserved please let me also know. I'll need to reset it :)
 ## License
-404
+free to use
